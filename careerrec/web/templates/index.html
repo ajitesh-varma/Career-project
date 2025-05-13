@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Path Recommendation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: left;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .results, .visualizations {
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: left;
+            width: 80%;
+        }
+        .results {
+            height: 400px; /* Increased height */
+            overflow-y: auto; /* Add scrollbar if content overflows */
+        }
+        img {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Career Path Recommendation</h1>
+
+    <form method="POST" action="/">
+        <label for="skills">Enter Your Skills (comma-separated):</label>
+        <input type="text" id="skills" name="skills" placeholder="e.g. Python, Data Analysis, Machine Learning" required>
+        
+        <label for="industry">Preferred Industry (Optional):</label>
+        <input type="text" id="industry" name="industry" placeholder="e.g. Tech, Healthcare">
+        
+        <label for="experience">Experience Range (Optional, e.g., 1-5):</label>
+        <input type="text" id="experience" name="experience" placeholder="e.g. 1-5">
+        
+        <button type="submit">Get Career Path Recommendations</button>
+    </form>
+
+    {% if career_path_text %}
+    <div class="results">
+        <h2>Recommended Career Paths:</h2>
+        <div>{{ career_path_text.replace('\n', '<br>')|safe }}</div>
+
+    </div>
+
+    <div class="visualizations">
+        <h2>Visualizations:</h2>
+        <img src="data:image/png;base64,{{ experience_img }}" alt="Experience Distribution">
+        <img src="data:image/png;base64,{{ industry_img }}" alt="Industry Representation">
+        <img src="data:image/png;base64,{{ wordcloud_img }}" alt="Key Skills WordCloud">
+    </div>
+
+    <div class="download">
+        <a href="/download" class="button">Download Visualizations</a>
+        <a href="/download_career_paths" class="button">Download Career Paths</a>
+    </div>
+    <div class="metrics">
+        <h3>Performance Metrics:</h3>
+        <p>Accuracy: {{ metrics.accuracy }}%</p>
+        <p>Precision: {{ metrics.precision }}%</p>
+        <p>Recall: {{ metrics.recall }}%</p>
+        <p>F1 Score: {{ metrics.f1 }}</p>
+    </div>
+    {% endif %}
+
+</body>
+</html>
